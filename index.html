@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rogelio</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ------------------ TEMAS ------------------ */
+        .tema1 {
+            --color-input: rgba(0, 255, 242, 0.7);
+            --color-texto: rgb(198, 255, 255);
+            --color-boton: rgba(108, 250, 139, 0.7);
+            --color-boton-texto: rgb(213, 253, 222);
+            --color-select: rgba(255, 173, 128, 0.682);
+            background-color: rgba(0, 255, 242, 0.1);
+        }
+
+        .tema2 {
+            --color-input: rgba(255, 192, 203, 0.7);
+            --color-texto: rgb(255, 240, 245);
+            --color-boton: rgba(255, 105, 180, 0.7);
+            --color-boton-texto: white;
+            --color-select: rgba(255, 182, 193, 0.7);
+            background-color: rgba(255, 192, 203, 0.1);
+        }
+
+        .tema3 {
+            --color-input: rgba(50, 50, 50, 0.7);
+            --color-texto: #f0f0f0;
+            --color-boton: rgba(100, 100, 100, 0.7);
+            --color-boton-texto: white;
+            --color-select: rgba(80, 80, 80, 0.7);
+            background-color: rgba(50, 50, 50, 0.7);
+        }
+
+        body.auto {
+            --color-input: rgba(240, 240, 240, 0.9);
+            --color-texto: #000000;
+            --color-boton: rgba(0, 120, 215, 0.8);
+            --color-boton-texto: white;
+            --color-select: rgba(200, 200, 200, 0.8);
+            background-color: rgba(240, 240, 240, 0.1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body.auto {
+                --color-input: rgba(40, 40, 40, 0.9);
+                --color-texto: #f0f0f0;
+                --color-boton: rgba(13, 110, 253, 0.8);
+                --color-boton-texto: white;
+                --color-select: rgba(80, 80, 80, 0.9);
+                background-color: rgba(40, 40, 40, 0.9);
+            }
+        }
+
+        /* ------------------ ESTILOS GENERALES ------------------ */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: url(./index/background.jpeg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        #caja {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        input[type="number"] {
+            background-color: var(--color-input);
+            color: var(--color-texto);
+            margin: 5px;
+            padding: 10px 20px;
+            border: solid var(--color-texto);
+            border-radius: 100px;
+        }
+
+        input[type="button"], button {
+            background-color: var(--color-boton);
+            color: var(--color-boton-texto);
+            margin: 5px;
+            padding: 10px 20px;
+            border: solid var(--color-boton-texto);
+            border-radius: 100px;
+            cursor: pointer;
+        }
+
+        select {
+            background-color: var(--color-select);
+            color: var(--color-texto);
+            margin: 5px;
+            padding: 10px 20px;
+            border: solid var(--color-boton-texto);
+            border-radius: 100px;
+            cursor: pointer;
+        }
+
+        p {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        ::placeholder {
+            color: var(--color-texto);
+        }
+
+        #selector-tema {
+            margin-bottom: 15px;
+        }
+
+        #historial {
+            margin-top: 15px;
+            max-height: 120px;
+            overflow-y: auto;
+            font-size: 14px;
+            color: white;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="caja">
+        <select id="selector-tema" onchange="cambiarTema()">
+            <option value="tema1">Tema Aqua</option>
+            <option value="tema2">Tema Rosa</option>
+            <option value="tema3">Tema Oscuro</option>
+            <option value="auto">Tema Automático</option>
+        </select>
+
+        <input type="number" id="medida" placeholder="Ingresa un valor" aria-label="Valor a convertir">
+
+        <select id="unidad_de_origen" aria-label="Unidad de origen">
+            <option value=""></option>
+            <option value="nm">Nanómetros</option>
+            <option value="um">Micrómetros</option>
+            <option value="mm">Milímetros</option>
+            <option value="m">Metros</option>
+            <option value="cm">Centímetros</option>
+            <option value="km">Kilómetros</option>
+            <option value="in">Pulgadas</option>
+            <option value="ft">Pies</option>
+            <option value="yd">Yardas</option>
+            <option value="mi">Millas</option>
+            <option value="nmi">Milla náutica</option>
+        </select>
+
+        <select id="unidad_de_destino" aria-label="Unidad de destino">
+            <option value=""></option>
+            <option value="nm">Nanómetros</option>
+            <option value="um">Micrómetros</option>
+            <option value="mm">Milímetros</option>
+            <option value="m">Metros</option>
+            <option value="cm">Centímetros</option>
+            <option value="km">Kilómetros</option>
+            <option value="in">Pulgadas</option>
+            <option value="ft">Pies</option>
+            <option value="yd">Yardas</option>
+            <option value="mi">Millas</option>
+            <option value="nmi">Milla náutica</option>
+        </select>
+
+        <input type="button" id="btnCalcular" value="=" onclick="calcular()">
+        <button onclick="invertir()">⇄</button>
+        <button onclick="copiarResultado()">📋</button>
+
+        <p id="resultado"></p>
+
+        <h3 style="color:white;">Historial</h3>
+        <ul id="historial"></ul>
+    </div>
+
+    <script>
+        const factores = {
+            nm: 1e-9, um: 1e-6, mm: 1e-3, cm: 1e-2, m: 1, km: 1e3,
+            in: 0.0254, ft: 0.3048, yd: 0.9144, mi: 1609.34, nmi: 1852
+        };
+        const nombres = {
+            nm: "nanómetros", um: "micrómetros", mm: "milímetros", cm: "centímetros",
+            m: "metros", km: "kilómetros", in: "pulgadas", ft: "pies",
+            yd: "yardas", mi: "millas", nmi: "millas náuticas"
+        };
+
+        window.ultimaConversion = false;
+
+        function calcular() {
+            let valor = parseFloat(document.getElementById("medida").value);
+            let origen = document.getElementById("unidad_de_origen").value;
+            let destino = document.getElementById("unidad_de_destino").value;
+
+            if (isNaN(valor) || !origen || !destino) {
+                document.getElementById("resultado").innerText = "⚠️ Completa todos los campos.";
+                return;
+            }
+
+            let resultado = (valor * factores[origen]) / factores[destino];
+
+            let resultadoFormateado = (resultado > 1e6 || resultado < 1e-6)
+                ? resultado.toExponential(4)
+                : resultado.toLocaleString('es-AR');
+
+            document.getElementById("resultado").innerText =
+                `${valor} ${nombres[origen]} = ${resultadoFormateado} ${nombres[destino]}`;
+
+            agregarHistorial(valor, origen, resultadoFormateado, destino);
+            window.ultimaConversion = true;
+        }
+
+        function agregarHistorial(valor, origen, resultado, destino) {
+            let hist = document.getElementById("historial");
+            let item = document.createElement("li");
+            item.textContent = `${valor} ${nombres[origen]} = ${resultado} ${nombres[destino]}`;
+            hist.prepend(item);
+            if (hist.childNodes.length > 10) hist.removeChild(hist.lastChild);
+        }
+
+        function copiarResultado() {
+            let texto = document.getElementById("resultado").innerText;
+            if (texto) {
+                navigator.clipboard.writeText(texto);
+                alert("Resultado copiado ✅");
+            }
+        }
+
+        function invertir() {
+            let origen = document.getElementById("unidad_de_origen");
+            let destino = document.getElementById("unidad_de_destino");
+            let temp = origen.value;
+            origen.value = destino.value;
+            destino.value = temp;
+            if (origen.value && destino.value) calcular();
+        }
+
+        function cambiarTema() {
+            const tema = document.getElementById("selector-tema").value;
+            const body = document.body;
+
+            body.classList.remove("tema1", "tema2", "tema3", "auto");
+            body.classList.add(tema);
+            localStorage.setItem("tema", tema);
+        }
+
+        document.getElementById("unidad_de_origen").addEventListener("change", () => {
+            if (window.ultimaConversion) calcular();
+        });
+
+        document.getElementById("unidad_de_destino").addEventListener("change", () => {
+            if (window.ultimaConversion) calcular();
+        });
+
+        window.onload = () => {
+            const temaGuardado = localStorage.getItem("tema") || "auto";
+            document.body.classList.add(temaGuardado);
+            document.getElementById("selector-tema").value = temaGuardado;
+        }
+
+        document.getElementById("medida").addEventListener("keypress", function (e) {
+            if (e.key === "Enter") calcular();
+        });
+    </script>
+</body>
+</html>
